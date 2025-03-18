@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLARBEN Contact Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+            border-top: 10px solid #003366;
+        }
+        h1 {
+            color: #003366;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        input, select, datalist, textarea {
+            width: 100%;
+            margin: 10px 0;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        textarea {
+            resize: vertical;
+            height: 50px;
+        }
+        button {
+            background-color: #003366;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background 0.3s ease;
+        }
+        button:hover {
+            background-color: #002244;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CLARBEN Contact Form</h1>
+        <form id="contactForm">
+            <input type="text" id="name" placeholder="Full Name" required>
+            <input type="email" id="email" placeholder="Email Address" required>
+            <input type="tel" id="phone" placeholder="Phone Number" required>
+            <input type="text" id="cif" placeholder="CIF" required>
+
+            <input list="countries" id="country" placeholder="Select your country" required>
+            <datalist id="countries">
+                <option value="Argentina">
+                <option value="Mexico">
+                <option value="Spain">
+                <option value="Colombia">
+                <option value="Chile">
+                <option value="Peru">
+                <option value="United States">
+                <option value="France">
+                <option value="Germany">
+                <option value="Italy">
+                <option value="Japan">
+                <option value="China">
+                <option value="Brazil">
+                <option value="India">
+                <option value="United Kingdom">
+                <option value="Other">
+            </datalist>
+
+            <select id="type" required>
+                <option value="" disabled selected>Select your type</option>
+                <option value="Distributor">Distributor</option>
+                <option value="Clinic">Clinic</option>
+                <option value="Manufacturer">Manufacturer</option>
+                <option value="Prosthetist">Prosthetist</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <input type="text" id="company" placeholder="Name of Distributor/Clinic/Other" required>
+            
+            <textarea id="motivo" placeholder="Write your reason here..."></textarea>
+            
+            <button type="submit">Submit</button>
+        </form>
+
+        <p id="responseMessage"></p>
+    </div>
+
+    <script>
+        document.getElementById("contactForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const formData = {
+                name: document.getElementById("name").value,
+                email: document.getElementById("email").value,
+                phone: document.getElementById("phone").value,
+                cif: document.getElementById("cif").value,
+                country: document.getElementById("country").value,
+                type: document.getElementById("type").value,
+                company: document.getElementById("company").value,
+                motivo: document.getElementById("motivo").value
+            };
+
+            fetch("https://script.google.com/macros/s/AKfycbzeiVSM4yKO6jV8ZUxIMr0e1-Fu6qKYjysaY90c_yvLmnqsbYv1qZ_Qs86eYZtTvNjL/exec", {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(() => {
+                document.getElementById("responseMessage").innerText = "✅ Form submitted successfully!";
+                document.getElementById("contactForm").reset();
+            })
+            .catch(error => {
+                document.getElementById("responseMessage").innerText = "❌ Error submitting form. Try again.";
+                console.error("Error:", error);
+            });
+        });
+    </script>
+
+</body>
+</html>
